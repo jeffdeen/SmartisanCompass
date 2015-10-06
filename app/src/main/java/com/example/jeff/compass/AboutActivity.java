@@ -1,9 +1,9 @@
 package com.example.jeff.compass;
 
 import android.app.Activity;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.ClipboardManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,10 +24,10 @@ public class AboutActivity extends Activity {
     private Button backButton;
 
     private String[] titles = new String[]{
-            "名称", "版本", "作者", "反馈"
+            "开发", "设计", "反馈"
     };
     private String[] contents = new String[]{
-            "指南针", "beta 0.91", "@丁金锋JEFF", "jeffdeen@qq.com"
+            "@丁金锋JEFF","@阿难天","jeffdeen@qq.com"
     };
 
     @Override
@@ -61,21 +61,14 @@ public class AboutActivity extends Activity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 2:
-                        cmb.setText(contents[position].trim());
-                        Toast.makeText(AboutActivity.this, "已复制到剪贴板", Toast.LENGTH_SHORT).show();
-                    case 3:
-                        cmb.setText(contents[position].trim());
-                        Toast.makeText(AboutActivity.this, "已复制到剪贴板", Toast.LENGTH_SHORT).show();
-                }
+                cmb.setText(contents[position].trim());
+                Toast.makeText(AboutActivity.this, "已复制到剪贴板", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-    @Override
-    public void onBackPressed() {// 覆盖返回键
-        finish();
-        overridePendingTransition(0, R.animator.anim4);
-    }
+        @Override
+        public void onBackPressed () {// 覆盖返回键
+            finish();
+            overridePendingTransition(0, R.animator.anim4);
+        }
 }

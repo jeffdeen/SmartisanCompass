@@ -5,36 +5,104 @@
     android:orientation="vertical"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:background="@drawable/aboutbackground">
-
+        android:background="@drawable/title_bg">
         <Button
             android:id="@+id/backButton"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
+            android:layout_width="66.88dp"
+            android:layout_height="43.15dp"
+            android:layout_marginTop="6.5dp"
+            android:layout_marginBottom="10.5dp"
+            android:layout_marginLeft="5dp"
+            android:text="返回"
+            android:textSize="15sp"
+            android:textColor="#FFFFFF"
             android:background="@drawable/backbutton"
             />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="关于开发者"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="6dp"
+            android:textSize="22sp"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@drawable/list_background">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="178.6dp"
+            android:layout_marginTop="11.26dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="@drawable/deve_card2">
+            <!--<ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/abouttitle"/>-->
+            <!--<ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/icon2"/>-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_marginTop="90dp"
+                android:text="指南针"/>
+            <!--<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                android:layout_marginTop="15dp"
+                android:text="V1.0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textSize="6sp"
+                android:text="- based on Smartisan OS -"/>-->
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/list_background">
-        <ListView
-            android:id="@+id/mylist"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16.6dp"
+            android:textSize="15sp"
+            android:layout_marginLeft="25dp"
+            android:text="关注开发者"/>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_height="192.66dp"
+            android:orientation="vertical"
+            android:layout_marginTop="8.33dp"
+            android:background="@drawable/bg_developer"
+            >
+            <ListView
+                android:id="@+id/mylist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="#00000000"
+                android:dividerHeight="0dip"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+            </ListView>
 
-        </ListView>
+        </LinearLayout>
     </LinearLayout>
+
+
 
 </LinearLayout>

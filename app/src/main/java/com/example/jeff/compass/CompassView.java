@@ -2,6 +2,7 @@ package com.example.jeff.compass;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -12,6 +13,9 @@ import android.widget.ImageView;
 class CompassView extends ImageView {
     private float mDirection;// 方向旋转浮点数
     private Drawable compass;// 图片资源
+    private int color = 0;
+    private Paint mPaint;
+    private int mAscent;
 
     //三个重载构造方法
     public CompassView(Context context) {
@@ -56,5 +60,10 @@ class CompassView extends ImageView {
         invalidate();// 重新刷新一下，更新方向
     }
 
+    /*@Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),
+                getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));
+    }*/
 }
 

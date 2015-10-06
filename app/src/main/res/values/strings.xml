@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Compass</string>
+    <string name="app_name">指南针</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

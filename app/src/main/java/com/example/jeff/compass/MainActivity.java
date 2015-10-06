@@ -28,43 +28,23 @@ import java.util.List;
 public class MainActivity extends Activity {
 
     private final float MAX_ROTATE_DEGREE = 1.0f;// 最多旋转一周，即360°
-
     private float mDirection;// 当前浮点方向
-
     private float mTargetDirection;// 目标浮点方向
-
     private AccelerateInterpolator mInterpolator;// 动画从开始到结束，变化率是一个加速的过程,就是一个动画速率
-
     protected final Handler mHandler = new Handler();
-
     private boolean mStopDrawing;// 是否停止指南针旋转的标志位
-
     CompassView mPointer;// 指南针view
-
     private SensorManager sensorManager;
-
     private Button aboutbutton;
-
     private double degree;
-
     private int rotateDegree;
-
     private TextView compassDirection;
-
     private TextView compassDegree;
-
     private LocationManager locationManager;
-
     private String provider;
-
     private TextView latitudeText;
-
     private TextView longitudeText;
-
     private ToggleButton lightButton;
-
-    private static boolean isLightOn=false;
-
     protected Runnable mCompassViewUpdater = new Runnable() {
         @Override
         public void run() {
@@ -209,7 +189,6 @@ public class MainActivity extends Activity {
         mHandler.postDelayed(mCompassViewUpdater, 20);
 
     }
-
     @Override
     protected void onStop(){
         super.onStop();
@@ -218,6 +197,7 @@ public class MainActivity extends Activity {
 
     private void updateDirection(){
         rotateDegree=(int)degree;
+        Log.d("nan",""+rotateDegree);
         if(rotateDegree==0){
             compassDirection.setText("正北");
             compassDegree.setText(" ");
@@ -238,17 +218,17 @@ public class MainActivity extends Activity {
             compassDirection.setText("东偏南");
             compassDegree.setText(" "+(rotateDegree-90)+"°");
         }
-        else if(rotateDegree>135&&rotateDegree<=180){
+        else if(rotateDegree>135&&rotateDegree<179){
             compassDirection.setText("南偏东");
-            compassDegree.setText(" "+Math.abs(rotateDegree - 180)+"°");
+            compassDegree.setText(" "+Math.abs(rotateDegree - 179)+"°");
         }
-        else if(rotateDegree==180||rotateDegree==-180){
+        else if(rotateDegree==179||rotateDegree==-179){
             compassDirection.setText("正南");
             compassDegree.setText(" ");
         }
-        else if(rotateDegree<-135){
+        else if(rotateDegree<-135&&rotateDegree>-179){
             compassDirection.setText("南偏西");
-            compassDegree.setText(" "+Math.abs(rotateDegree+180)+"°");
+            compassDegree.setText(" "+Math.abs(rotateDegree+179)+"°");
         }
         else if(rotateDegree>=-135&&rotateDegree<-90){
             compassDirection.setText("西偏南");
@@ -284,7 +264,6 @@ public class MainActivity extends Activity {
             Location location=locationManager.getLastKnownLocation(provider);
             if(location!=null){
                 showLocation(location);
-                Log.d("ddd", "initial");
             }
             locationManager.requestLocationUpdates(provider,1000,5,locationListener);
         }catch (Exception e){
