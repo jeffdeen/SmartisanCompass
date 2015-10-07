@@ -99,6 +99,7 @@ public class MainActivity extends Activity {
         compassDirection=(TextView)findViewById(R.id.compassDirection);
        // mHandler.post(mCompassViewUpdater);
         mPointer = (CompassView) findViewById(R.id.degree);
+        mPointer.setRatio(1.0f);
         ButtonListener buttonListener=new ButtonListener();
         aboutbutton=(Button)findViewById(R.id.button);
         aboutbutton.setOnClickListener(buttonListener);

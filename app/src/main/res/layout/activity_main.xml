@@ -31,6 +31,7 @@
             />
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/compass"
         android:layout_below="@+id/direction"
         android:layout_width="350dp"
         android:layout_height="350dp">
@@ -41,16 +42,14 @@
             android:layout_height="350dp"
             android:layout_centerInParent="true"
             android:src="@drawable/blank_clock3"/>
-
-        <com.example.jeff.compass.CompassView
-            android:id="@+id/degree"
-            android:layout_width="255dp"
-            android:layout_height="255dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/degree"/>
+            <com.example.jeff.compass.CompassView
+                android:id="@+id/degree"
+                android:layout_width="255dp"
+                android:layout_height="255dp"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/degree"/>
     </RelativeLayout>
-
-
 
     <ToggleButton
         android:id="@+id/lightButton"
@@ -92,7 +91,7 @@
 
     </LinearLayout>
     <LinearLayout
-        android:layout_below="@+id/compassbackground"
+        android:layout_below="@+id/compass"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="50dp"
