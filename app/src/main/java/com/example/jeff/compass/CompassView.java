@@ -2,7 +2,6 @@ package com.example.jeff.compass;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -13,9 +12,6 @@ import android.widget.ImageView;
 class CompassView extends ImageView {
     private float mDirection;// 方向旋转浮点数
     private Drawable compass;// 图片资源
-    private int color = 0;
-    private Paint mPaint;
-    private int mAscent;
     /** 图片宽和高的比例 */
     private float ratio = 1.0f;
 

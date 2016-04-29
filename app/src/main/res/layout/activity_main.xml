@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@drawable/background">
+    >
 
     <RelativeLayout
         android:id="@+id/title"
@@ -30,25 +30,27 @@
             android:background="@drawable/aboutbutton"
             />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/compass"
         android:layout_below="@+id/direction"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="350dp">
-
         <ImageView
             android:id="@+id/compassbackground"
-            android:layout_width="350dp"
-            android:layout_height="350dp"
+            android:layout_width="320dp"
+            android:layout_height="320dp"
             android:layout_centerInParent="true"
             android:src="@drawable/blank_clock3"/>
-            <com.example.jeff.compass.CompassView
-                android:id="@+id/degree"
-                android:layout_width="255dp"
-                android:layout_height="255dp"
-                android:layout_centerInParent="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/degree"/>
+        <com.example.jeff.compass.CompassView
+            android:id="@+id/degree"
+            android:layout_width="243dp"
+            android:layout_height="243dp"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/degree"/>
+
+
     </RelativeLayout>
 
     <ToggleButton
@@ -95,7 +97,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp">
+        android:layout_marginRight="50dp"
+        android:id="@+id/locationLayout"
+        >
         <TextView
             android:id="@+id/longitudeText"
             android:layout_width="0dp"
@@ -113,9 +117,22 @@
             android:gravity="start|center_vertical"
             android:textColor="#A52A2A"
             />
-
-
     </LinearLayout>
+    <LinearLayout
+        android:layout_below="@+id/locationLayout"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/back"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="22.33dp">
+        <com.example.jeff.compass.LevelView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/show"
+            android:scaleType="fitXY"
+            />
+    </LinearLayout>
+
 
 
 </RelativeLayout>

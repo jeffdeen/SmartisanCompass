@@ -38,6 +38,7 @@ public class AboutActivity extends Activity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 finish();
                 overridePendingTransition(0, R.animator.anim4);
             }
@@ -62,13 +63,15 @@ public class AboutActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 cmb.setText(contents[position].trim());
-                Toast.makeText(AboutActivity.this, "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "已复制到剪贴板", Toast.LENGTH_SHORT).show();
             }
         });
     }
         @Override
         public void onBackPressed () {// 覆盖返回键
+
             finish();
             overridePendingTransition(0, R.animator.anim4);
+
         }
 }
