@@ -43,36 +43,20 @@
             android:layout_width="match_parent"
             android:layout_height="178.6dp"
             android:layout_marginTop="11.26dp"
+            android:layout_marginLeft="12.22dp"
+            android:layout_marginRight="12.22dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:background="@drawable/deve_card">
-            <!--<ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/abouttitle"/>-->
-            <!--<ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/icon2"/>-->
+            android:id="@+id/devBackground"
+            android:background="@drawable/icon_abt">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:layout_marginTop="90dp"
-                android:text="指南针"/>
-            <!--<TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="8sp"
-                android:layout_marginTop="15dp"
-                android:text="V1.0"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:textSize="6sp"
-                android:text="- based on Smartisan OS -"/>-->
+                android:textSize="8.5sp"
+                android:layout_marginTop="140dp"
+                android:textColor="#747474"
+                android:text="V2.0"/>
 
         </LinearLayout>
 
@@ -82,15 +66,18 @@
             android:layout_marginTop="16.6dp"
             android:textSize="15sp"
             android:layout_marginLeft="25dp"
-            android:text="关注开发者"/>
+            android:text="更多"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="192.66dp"
             android:orientation="vertical"
             android:layout_marginTop="8.33dp"
-            android:background="@drawable/bg_developer"
+            android:layout_marginLeft="11.3dp"
+            android:layout_marginRight="11.3dp"
+            android:background="@drawable/btn_abt_normal"
+            android:splitMotionEvents="false"
             >
-            <ListView
+            <!--<ListView
                 android:id="@+id/mylist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -98,9 +85,139 @@
                 android:dividerHeight="0dip"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp">
-            </ListView>
+            </ListView>-->
+            <LinearLayout
+                android:id="@+id/update"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:background="@drawable/list_button"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/update_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="检查更新"
+                        android:textSize="18sp"
+                        android:textColor="@drawable/text_color"
+                        android:gravity="center"
+                        android:layout_marginLeft="13dp"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/version_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="v2.0"
+                        android:textColor="@drawable/text_color2"
+                        android:textSize="18sp"
+                        android:layout_gravity="end"
+                        android:gravity="center"
+                        android:layout_marginRight="13dp"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/feedback"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:background="@drawable/list_button2">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/feedback_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="意见反馈"
+                        android:textSize="18sp"
+                        android:textColor="@drawable/text_color"
+                        android:gravity="center"
+                        android:layout_marginLeft="13dp"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp"
+                        android:layout_gravity="end"
+                        android:src="@drawable/arrow_right"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="26dp"
+                        />
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/aboutDev"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:background="@drawable/list_button">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/aboutDev_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="关于开发者"
+                        android:textSize="18sp"
+                        android:textColor="@drawable/text_color"
+                        android:gravity="center"
+                        android:layout_marginLeft="13dp"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="10dp"
+                        android:layout_gravity="end"
+                        android:src="@drawable/arrow_right"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginTop="26dp"
+                        />
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>
+
+

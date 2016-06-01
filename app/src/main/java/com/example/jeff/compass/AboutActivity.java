@@ -1,25 +1,16 @@
 package com.example.jeff.compass;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.text.ClipboardManager;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Created by Jeff on 2015/9/28.
  */
-public class AboutActivity extends Activity {
+public class AboutActivity extends Activity  {
 
     private Button backButton;
 
@@ -27,14 +18,32 @@ public class AboutActivity extends Activity {
             "开发", "设计", "反馈"
     };
     private String[] contents = new String[]{
-            "@丁金锋JEFF","@阿难天","jeffdeen@qq.com"
+            "@丁金锋JEFF", "@阿难天", "jeffdeen@qq.com"
     };
+
+
+    private LinearLayout linearLayout;
+    private LinearLayout updateLinlayout;
+    private LinearLayout feedbackLinlayout;
+    private LinearLayout aboutDevLinlayout;
+    private TextView update_text;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aboutlayout);
         backButton = (Button) findViewById(R.id.backButton);
+        linearLayout = (LinearLayout) findViewById(R.id.devBackground);
+        updateLinlayout=(LinearLayout)findViewById(R.id.update);
+        feedbackLinlayout=(LinearLayout)findViewById(R.id.feedback);
+        aboutDevLinlayout=(LinearLayout)findViewById(R.id.aboutDev);
+        ButtonListener listener=new ButtonListener();
+        updateLinlayout.setOnClickListener(listener);
+        feedbackLinlayout.setOnClickListener(listener);
+        aboutDevLinlayout.setOnClickListener(listener);
+        update_text=(TextView)findViewById(R.id.update_text);
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,7 +53,7 @@ public class AboutActivity extends Activity {
             }
         });
 
-        List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
+        /*List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
         for (int i = 0; i < titles.length; i++) {
             Map<String, Object> listItem = new HashMap<String, Object>();
             listItem.put("titles", titles[i]);
@@ -65,13 +74,35 @@ public class AboutActivity extends Activity {
                 cmb.setText(contents[position].trim());
                 Toast.makeText(getApplicationContext(), "已复制到剪贴板", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
+    class ButtonListener implements View.OnClickListener{
         @Override
-        public void onBackPressed () {// 覆盖返回键
-
-            finish();
-            overridePendingTransition(0, R.animator.anim4);
-
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.update:
+                    break;
+                case R.id.feedback:
+                    break;
+                case R.id.aboutDev:
+                    break;
+            }
         }
+    }
+    @Override
+    public void onBackPressed() {// 覆盖返回键
+        finish();
+        overridePendingTransition(0, R.animator.anim4);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

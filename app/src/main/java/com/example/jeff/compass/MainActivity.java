@@ -1,17 +1,14 @@
 package com.example.jeff.compass;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
+import android.graphics.PixelFormat;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
@@ -20,8 +17,6 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
-import java.util.List;
 
 
 public class MainActivity extends Activity {
@@ -33,35 +28,32 @@ public class MainActivity extends Activity {
     protected final Handler mHandler = new Handler();
     protected final Handler mHandler2 = new Handler();
     private boolean mStopDrawing;// 是否停止指南针旋转的标志位
-    CompassView mPointer;// 指南针view
-    private SensorManager sensorManager;
+    compassView mPointer;// 指南针view
+    compassSurfaceView compassView;
     private Button aboutbutton;
-    private double degree;
+    private float degree;
     private int rotateDegree;
     private TextView compassDirection;
     private TextView compassDegree;
-    private LocationManager locationManager;
-    private String provider;
     private TextView latitudeText;
     private TextView longitudeText;
     private ToggleButton lightButton;
     float distance;
-    LevelView show;
-    // 获取与Y轴的夹角
+    levelSurfaceView levelView;
+    locationSensor locationSensor;
+    compassSensorClass sensorClass;
     float yAngle;
-    float toyAngle;
-    // 获取与Z轴的夹角
     float zAngle=0f;
-    float tozAngle=0f;
-    // 定义水平仪能处理的最大倾斜角，超过该角度，气泡将直接在位于边界。
-    int MAX_ANGLE = 90;
+    //SensorManager sensorManager;
     protected Runnable mCompassViewUpdater = new Runnable() {
         @Override
         public void run() {
-           // Log.d("direction",mDirection+"");
-            if (mPointer != null && !mStopDrawing) {
+            if (compassView != null && !mStopDrawing) {
+                degree = sensorClass.getvalues(0);// 赋值给全局变量，让指南针旋转
+                mTargetDirection=degree*-1.0f;
+                yAngle=sensorClass.getvalues(1);
+                zAngle=sensorClass.getvalues(2);
                 if (mDirection != mTargetDirection) {
-
                     // calculate the short routine
                     float to = mTargetDirection;
                     if (to - mDirection > 180) {
@@ -69,10 +61,8 @@ public class MainActivity extends Activity {
                     } else if (to - mDirection < -180) {
                         to += 360;
                     }
-
                     // limit the max speed to MAX_ROTATE_DEGREE
                     distance = to - mDirection;
-
                     if (Math.abs(distance) > MAX_ROTATE_DEGREE) {
                         distance = distance > 0 ? MAX_ROTATE_DEGREE
                                 : (-1.0f * MAX_ROTATE_DEGREE);
@@ -82,21 +72,12 @@ public class MainActivity extends Activity {
                             + ((to - mDirection) * mInterpolator
                             .getInterpolation(Math.abs(distance) > MAX_ROTATE_DEGREE ? 0.3f
                                     : 0.2f));// 用了一个加速动画去旋转图片，很细致
-                    mPointer.updateDirection(mDirection);// 更新指南针旋转
-
-
+                    //mPointer.updateDirection(mDirection);// 更新指南针旋转
+                    compassView.setDegree(mDirection);
                 }
 
-                if (show != null) {
-                    toyAngle=toyAngle+((yAngle - toyAngle) * mInterpolator.getInterpolation(0.2f));// 用了一个加速动画去旋转图片，很细致
-                    tozAngle=tozAngle+((zAngle - tozAngle) * mInterpolator.getInterpolation(0.2f));// 用了一个加速动画去旋转图片，很细致
-                    //Log.d("distance",distance+"");
-                    updateLevelView();
-                    }
-                toyAngle=yAngle;
-                tozAngle=zAngle;
-
-                mHandler.postDelayed(mCompassViewUpdater,20);// 20毫秒后重新执行自己，比定时器好
+                levelView.updateLevelView(zAngle,yAngle);
+                mHandler.postDelayed(mCompassViewUpdater,10);// 20毫秒后重新执行自己，比定时器好
             }
         }
     };
@@ -111,23 +92,26 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        simpleAlertDialog();
         setContentView(R.layout.activity_main);
-        sensorManager=(SensorManager)getSystemService(Context.SENSOR_SERVICE);
-        Sensor magneticSensor=sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        Sensor accelerometerSensor=sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(listener, magneticSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(listener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        locationSensor=new locationSensor(this);
+        sensorClass=new compassSensorClass(this);
         mDirection = 0.0f;
         mTargetDirection = 0.0f;
         mInterpolator = new AccelerateInterpolator();
-       //mStopDrawing = true;
-        //Log.d("direction", 0 + "");
         compassDegree=(TextView)findViewById(R.id.compassDegree);
         compassDirection=(TextView)findViewById(R.id.compassDirection);
-        show = (LevelView) findViewById(R.id.show);
-       // mHandler.post(mCompassViewUpdater);
-        mPointer = (CompassView) findViewById(R.id.degree);
-        mPointer.setRatio(1.0f);
+        levelView = (levelSurfaceView) findViewById(R.id.show);
+        levelView.setZOrderOnTop(true);    // necessary
+        SurfaceHolder sfhTrack = levelView.getHolder();
+        sfhTrack.setFormat(PixelFormat.TRANSLUCENT);
+        //mPointer = (compassView) findViewById(R.id.degree);
+        //mPointer.setRatio(1.0f);
+        compassView=(compassSurfaceView)findViewById(R.id.mycompassview);
+        compassView.setZOrderOnTop(true);    // necessary
+        SurfaceHolder sfhTrack2 = compassView.getHolder();
+        sfhTrack2.setFormat(PixelFormat.TRANSLUCENT);
+
         ButtonListener buttonListener=new ButtonListener();
         aboutbutton=(Button)findViewById(R.id.button);
         aboutbutton.setOnClickListener(buttonListener);
@@ -149,7 +133,9 @@ public class MainActivity extends Activity {
                 }
             }
         });
-        initial();
+
+        //initial();
+        //updateLevelView();
     }
 
     class ButtonListener implements View.OnClickListener{
@@ -157,9 +143,6 @@ public class MainActivity extends Activity {
         @Override
         public void onClick(View view){
             switch (view.getId()){
-                //case R.id.lightButton:
-
-                   // break;
                 case R.id.button:
                     Intent intent=new Intent(MainActivity.this,AboutActivity.class);
                     startActivity(intent);
@@ -170,47 +153,13 @@ public class MainActivity extends Activity {
             }
         }
     }
-
-    private SensorEventListener listener=new SensorEventListener() {
-        float[] accelerometerValues=new float[3];
-
-        float[] magneticValues=new float[3];
-
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            //判断当前是加速度传感器还是地磁传感器
-            if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
-                //赋值时要调用clone方法
-                accelerometerValues=event.values.clone();
-            }else if(event.sensor.getType()==Sensor.TYPE_MAGNETIC_FIELD){
-                magneticValues=event.values.clone();
-            }
-            float[] values=new float[3];
-            float[] R=new float[9];
-            SensorManager.getRotationMatrix(R, null, accelerometerValues, magneticValues);
-            SensorManager.getOrientation(R, values);
-            degree = Math.toDegrees(values[0]);// 赋值给全局变量，让指南针旋转
-            mTargetDirection=(float)degree*-1.0f;
-            yAngle=(int)Math.toDegrees(values[1]);
-            zAngle=(int)Math.toDegrees(values[2]);
-            //Log.d("direction",zAngle+"");
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
-    };
-
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        if(sensorManager!=null){
-            sensorManager.unregisterListener(listener);
-        }
-        if(locationManager!=null){
-            locationManager.removeUpdates(locationListener);
-        }
+        sensorClass.onstop();
+        locationSensor.onStop();
+        levelView.onStop();
+        compassView.onStop();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
@@ -218,20 +167,24 @@ public class MainActivity extends Activity {
     protected void onResume(){
         super.onResume();
         mStopDrawing=false;
-        mHandler.postDelayed(mCompassViewUpdater, 20);
+        levelView.onresume();
+        compassView.onresume();
+        mHandler.postDelayed(mCompassViewUpdater, 10);
         mHandler2.postDelayed(directionUpdater, 150);
     }
     @Override
     protected void onStop(){
         super.onStop();
         mStopDrawing=true;
+        levelView.onStop();
+        compassView.onStop();
     }
 
     private void updateDirection(){
         if(Math.abs(distance)<1){
             return;
         }
-        rotateDegree=(int)degree;
+        rotateDegree=(int)sensorClass.getvalues(0);
         //Log.d("nan",""+rotateDegree);
         if(rotateDegree==0){
             compassDirection.setText("正北");
@@ -282,57 +235,9 @@ public class MainActivity extends Activity {
             compassDegree.setText(" "+Math.abs(rotateDegree)+"°");
         }
     }
-    private void initial()
-    {
-
-        locationManager=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        List<String> providerList=locationManager.getProviders(true);
-            if(providerList.contains(LocationManager.GPS_PROVIDER)){
-                provider=LocationManager.GPS_PROVIDER;
-            }else if(providerList.contains(LocationManager.NETWORK_PROVIDER)){
-                provider=LocationManager.NETWORK_PROVIDER;
-            }else
-            {
-                Toast.makeText(getApplicationContext(),"GPS未打开，无法获取当前位置",Toast.LENGTH_SHORT).show();
-            }
-        try{
-            Location location=locationManager.getLastKnownLocation(provider);
-            if(location!=null){
-                showLocation(location);
-            }
-            locationManager.requestLocationUpdates(provider,1000,5,locationListener);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
-
-    LocationListener locationListener=new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            showLocation(location);
-            //Log.d("ddd",""+changenumber(location.getLongitude()));
-            //Log.d("ddd", "" + changenumber(location.getLatitude()));
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
 
     //改变经度纬度
-    private void showLocation(Location location){
+    protected void showLocation(Location location){
         if(location!=null){
             double LONG=changenumber(location.getLongitude());
             double LAT=changenumber(location.getLatitude());
@@ -355,66 +260,28 @@ public class MainActivity extends Activity {
         return ((int)(number*100))/100.00;
     }
 
-    private void updateLevelView(){
+    public void simpleAlertDialog(){
+        AlertDialog.Builder builder=new AlertDialog.Builder(this)
+                .setTitle("声明与条款")
+                .setMessage("test");
+        setPositiveButton(builder);
+        setNegativeButton(builder).create().show();
 
-        // 气泡位于中间时（水平仪完全水平），气泡的X、Y座标
-        int x = (show.length- show.bubble.getWidth()) / 2;
-        int y = (show.length- show.bubble.getHeight()) / 2;
-        // 如果与Z轴的倾斜角还在最大角度之内
-        if (Math.abs(zAngle) <= MAX_ANGLE) {
-            // 根据与Z轴的倾斜角度计算X座标的变化值（倾斜角度越大，X座标变化越大）
-            int deltaX = (int) ((show.length- show.bubble
-                    .getWidth()) / 2 * zAngle / MAX_ANGLE);
-            x -= deltaX;
-        }
-        // 如果与Z轴的倾斜角已经大于MAX_ANGLE，气泡应到最左边
-        else if (zAngle > MAX_ANGLE) {
-            x = show.length - show.bubble.getWidth();
-        }
-        // 如果与Z轴的倾斜角已经小于负的MAX_ANGLE，气泡应到最右边
-        else {
-            x = 0;
-        }
-        // 如果与Y轴的倾斜角还在最大角度之内
-        if (Math.abs(yAngle) <= MAX_ANGLE) {
-            // 根据与Y轴的倾斜角度计算Y座标的变化值（倾斜角度越大，Y座标变化越大）
-            int deltaY = (int) ((show.length- show.bubble
-                    .getHeight()) / 2 * yAngle / MAX_ANGLE);
-            y += deltaY;
-        }
-        // 如果与Y轴的倾斜角已经大于MAX_ANGLE，气泡应到最下边
-        else if (yAngle > MAX_ANGLE) {
-            y = show.length - show.bubble.getHeight();
-        }
-        // 如果与Y轴的倾斜角已经小于负的MAX_ANGLE，气泡应到最右边
-        else {
-            y = 0;
-        }
-        // 如果计算出来的X、Y座标还位于水平仪的仪表盘内，更新水平仪的气泡座标
-        if (isContain(x, y)) {
-            show.bubbleX = x;
-            show.bubbleY = y;
-        }
-        // 通知系统重回MyView组件
-        show.postInvalidate();
     }
-
-    // 计算x、y点的气泡是否处于水平仪的仪表盘内
-    private boolean isContain(int x, int y) {
-        // 计算气泡的圆心座标X、Y
-        int bubbleCx = x + show.bubble.getWidth() / 2;
-        int bubbleCy = y + show.bubble.getWidth() / 2;
-        // 计算水平仪仪表盘的圆心座标X、Y
-        int backCx = show.length/ 2;
-        int backCy = show.length/ 2;
-        // 计算气泡的圆心与水平仪仪表盘的圆心之间的距离。
-        double distance = Math.sqrt((bubbleCx - backCx) * (bubbleCx - backCx)
-                + (bubbleCy - backCy) * (bubbleCy - backCy));
-        // 若两个圆心的距离小于它们的半径差，即可认为处于该点的气泡依然位于仪表盘内
-        if (distance < (show.length - show.bubble.getWidth()) / 2) {
-            return true;
-        } else {
-            return false;
-        }
+    private AlertDialog.Builder setPositiveButton(AlertDialog.Builder builder){
+        return builder.setPositiveButton("同意并继续", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(),"单击确定",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private AlertDialog.Builder setNegativeButton(AlertDialog.Builder builder){
+        return builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(),"单击取消",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

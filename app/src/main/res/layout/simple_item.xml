@@ -17,7 +17,7 @@
         android:textSize="18sp"
 
         />
-    <TextView
+    <!--<TextView
         android:id="@+id/content"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -26,6 +26,10 @@
         android:textColor="#878c96"
         android:textSize="15sp"
 
-       />
+       />-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/arrow_right"/>
 
 </LinearLayout>

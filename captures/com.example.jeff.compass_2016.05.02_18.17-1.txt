@@ -1,0 +1,38 @@
+Applications Memory Usage (kB):
+Uptime: 134825699 Realtime: 260992528
+
+** MEMINFO in pid 28357 [com.example.jeff.compass] **
+                   Pss  Private  Private  Swapped     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------
+  Native Heap        0        0        0        0    16384     9143     7240
+  Dalvik Heap    34519    34004        0        0    53566    51134     2432
+ Dalvik Other      545      544        0        0                           
+        Stack      264      264        0        0                           
+       Ashmem        2        0        0        0                           
+    Other dev        5        0        4        0                           
+     .so mmap     1373      236      172        0                           
+    .apk mmap      104        0       24        0                           
+    .ttf mmap      116        0        0        0                           
+    .dex mmap      784        0      724        0                           
+    .oat mmap     1309        0      284        0                           
+    .art mmap     2137      688      884        0                           
+   Other mmap       74        4       12        0                           
+      Unknown     5608     5504        0        0                           
+        TOTAL    46840    41244     2104        0    69950    60277     9672
+ 
+ Objects
+               Views:       20         ViewRootImpl:        1
+         AppContexts:        3           Activities:        1
+              Assets:        5        AssetManagers:        5
+       Local Binders:       11        Proxy Binders:       18
+       Parcel memory:        4         Parcel count:       16
+    Death Recipients:        0      OpenSSL Sockets:        0
+ 
+ Dalvik
+         isLargeHeap:     true
+ 
+ SQL
+         MEMORY_USED:        0
+  PAGECACHE_OVERFLOW:        0          MALLOC_SIZE:        0
+ 
