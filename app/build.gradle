@@ -8,8 +8,8 @@ android {
         applicationId "com.example.jeff.compass"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.21"
+        versionCode 2
+        versionName "2.0"
     }
     buildTypes {
         release {
@@ -22,4 +22,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.0.1'
+    compile files('libs/AMap_Location_V3.1.0_20161027.jar')
+    compile 'com.pgyersdk:sdk:2.4.0'
+    compile 'us.feras.mdv:markdownview:1.1.0'
 }

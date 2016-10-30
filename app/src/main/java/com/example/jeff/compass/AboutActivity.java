@@ -1,25 +1,27 @@
 package com.example.jeff.compass;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 
 /**
  * Created by Jeff on 2015/9/28.
  */
-public class AboutActivity extends Activity  {
+public class AboutActivity extends BaseActivity  {
 
     private Button backButton;
 
-    private String[] titles = new String[]{
-            "开发", "设计", "反馈"
-    };
-    private String[] contents = new String[]{
-            "@丁金锋JEFF", "@阿难天", "jeffdeen@qq.com"
-    };
 
 
     private LinearLayout linearLayout;
@@ -27,7 +29,6 @@ public class AboutActivity extends Activity  {
     private LinearLayout feedbackLinlayout;
     private LinearLayout aboutDevLinlayout;
     private TextView update_text;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,38 +54,58 @@ public class AboutActivity extends Activity  {
             }
         });
 
-        /*List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
-        for (int i = 0; i < titles.length; i++) {
-            Map<String, Object> listItem = new HashMap<String, Object>();
-            listItem.put("titles", titles[i]);
-            listItem.put("contents", contents[i]);
-            listItems.add(listItem);
-        }
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, listItems,
-                R.layout.simple_item,
-                new String[]{"titles", "contents"},
-                new int[]{R.id.title, R.id.content});
-        ListView list = (ListView) findViewById(R.id.mylist);
-        list.setAdapter(simpleAdapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                cmb.setText(contents[position].trim());
-                Toast.makeText(getApplicationContext(), "已复制到剪贴板", Toast.LENGTH_SHORT).show();
-            }
-        });*/
     }
     class ButtonListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.update:
+                    PgyUpdateManager.register(AboutActivity.this,
+                            new UpdateManagerListener() {
+                                @Override
+                                public void onUpdateAvailable(final String result) {
+                                    final AppBean appBean = getAppBeanFromString(result);
+                                    new AlertDialog.Builder(AboutActivity.this)
+                                            .setTitle("更新")
+                                            .setMessage(appBean.getReleaseNote())
+                                            .setPositiveButton(
+                                                    "确定",
+                                                    new DialogInterface.OnClickListener() {
+
+                                                        @Override
+                                                        public void onClick(
+                                                                DialogInterface dialog,
+                                                                int which) {
+                                                            startDownloadTask(
+                                                                    AboutActivity.this,
+                                                                    appBean.getDownloadURL());
+                                                        }
+                                                    })
+                                            .setNegativeButton("取消",null)
+                                            .show();
+                                }
+
+                                @Override
+                                public void onNoUpdateAvailable() {
+                                    Toast.makeText(getApplicationContext(), "已经是最新版本",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
                     break;
                 case R.id.feedback:
+                    //FeedbackActivity.setBarImmersive(true);
+                    //PgyFeedback.getInstance().showDialog(AboutActivity.this);
+                    Intent data=new Intent(Intent.ACTION_SENDTO);
+                    data.setData(Uri.parse("mailto:jeffdeen@qq.com"));
+                    data.putExtra(Intent.EXTRA_SUBJECT, "锤子指南针反馈");
+                    data.putExtra(Intent.EXTRA_TEXT, "");
+                    startActivity(data);
+                    //PgyFeedback.getInstance().showActivity(AboutActivity.this);
                     break;
                 case R.id.aboutDev:
+                    Intent intent = new Intent(AboutActivity.this, AboutDev.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.animator.in_from_right, R.animator.out_to_left);
                     break;
             }
         }
@@ -105,4 +126,5 @@ public class AboutActivity extends Activity  {
     protected void onDestroy() {
         super.onDestroy();
     }
+
 }

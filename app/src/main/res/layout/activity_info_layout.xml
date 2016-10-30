@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_info_"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.jeff.compass.Info_Activity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/title_bg">
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="66.88dp"
+            android:layout_height="43.15dp"
+            android:layout_marginTop="6.5dp"
+            android:layout_marginBottom="10.5dp"
+            android:layout_marginLeft="5dp"
+            android:text="返回"
+            android:textSize="15sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/backbutton"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="更多"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="6dp"
+            android:textSize="22sp"
+            />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <us.feras.mdv.MarkdownView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/markdownView" />
+    </LinearLayout>
+
+
+</LinearLayout>
