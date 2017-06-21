@@ -3,6 +3,7 @@ package com.example.jeff.compass;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
@@ -14,6 +15,7 @@ import android.widget.ToggleButton;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.pgyersdk.crash.PgyCrashManager;
 
@@ -35,6 +37,8 @@ public class MainActivity extends BaseActivity {
     private TextView compassDegree;
     private TextView latitudeText;
     private TextView longitudeText;
+    private TextView altitudeText;
+    //private TextView addressText;
     private ToggleButton lightButton;
     float distance;
     //locationSensor locationSensor;
@@ -88,6 +92,7 @@ public class MainActivity extends BaseActivity {
         }
     };
     public AMapLocationClient mLocationClient = null;
+    public AMapLocationClientOption mLocationOption = null;
 
 
     @Override
@@ -111,6 +116,7 @@ public class MainActivity extends BaseActivity {
         aboutbutton.setOnClickListener(buttonListener);
         longitudeText = (TextView) findViewById(R.id.longitudeText);
         latitudeText = (TextView) findViewById(R.id.latitudeText);
+        altitudeText=(TextView)findViewById(R.id.altitude);
         lightButton = (ToggleButton) findViewById(R.id.lightButton);
         lightButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -127,6 +133,12 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+
+        //初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mLocationOption.setNeedAddress(false);
+
         AMapLocationListener mAMapLocationListener = new AMapLocationListener() {
             @Override
             public void onLocationChanged(AMapLocation amapLocation) {
@@ -134,19 +146,19 @@ public class MainActivity extends BaseActivity {
                     if (amapLocation.getErrorCode() == 0) {
                         //解析定位结果
                         showLocation(amapLocation);
-                        //Toast.makeText(getApplicationContext(),amapLocation.getLatitude()+" "+
-                        //amapLocation.getLongitude(),Toast.LENGTH_LONG).show();
                     }
                 }
             }
         };
         mLocationClient = new AMapLocationClient(getApplicationContext());
+
         //设置定位回调监听
         mLocationClient.setLocationListener(mAMapLocationListener);
+        mLocationClient.setLocationOption(mLocationOption);
         //启动定位
         mLocationClient.startLocation();
-        //initial();
-        //updateLevelView();
+        //showLocation(mLocationClient.getLastKnownLocation());
+
     }
 
     class ButtonListener implements View.OnClickListener {
@@ -169,6 +181,8 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         PgyCrashManager.unregister();
+        mLocationClient.stopLocation();//停止定位后，本地定位服务并不会被销毁
+        mLocationClient.onDestroy();//销毁定位客户端，同时销毁本地定位服务
         sensorClass.onstop();
         //locationSensor.onStop();
         //compassView.onStop();
@@ -194,7 +208,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {// 覆盖返回
         ActivityCollector.finishAll();
-        android.os.Process.killProcess(android.os.Process.myPid());
+        //android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     private void updateDirection() {
@@ -244,7 +258,9 @@ public class MainActivity extends BaseActivity {
 
     //改变经度纬度
     protected void showLocation(AMapLocation location) {
+        Log.d("address",location.toString());
         if (location != null) {
+
             double LONG = keepTwoDecimal(location.getLongitude());
             double LAT = keepTwoDecimal(location.getLatitude());
             if (LONG > 0) {
@@ -259,7 +275,10 @@ public class MainActivity extends BaseActivity {
             if (LAT < 0) {
                 latitudeText.setText(" 南纬" + " " + Math.abs(LAT) + "°");
             }
+            //altitudeText.setText("海拔 "+(int)location.getAltitude()+" 米");
+            //addressText.setText(location.getAddress());
         }
+
     }
 
     //保留两位小数

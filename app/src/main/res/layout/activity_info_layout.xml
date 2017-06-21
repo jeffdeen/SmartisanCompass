@@ -1,45 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:id="@+id/activity_info_"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.jeff.compass.Info_Activity">
+    android:background="@drawable/list_background"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/title_bg">
-        <Button
-            android:id="@+id/backButton"
-            android:layout_width="66.88dp"
-            android:layout_height="43.15dp"
-            android:layout_marginTop="6.5dp"
-            android:layout_marginBottom="10.5dp"
-            android:layout_marginLeft="5dp"
-            android:text="返回"
-            android:textSize="15sp"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/backbutton"
-            />
+        android:layout_height="54dp"
+        android:background="@drawable/about_bg">
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="54dp"
             android:text="更多"
-            android:gravity="center"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="6dp"
-            android:textSize="22sp"
+            android:textColor="#666666"
+            android:textSize="20sp"
+            android:layout_marginBottom="2dp"
+            android:gravity="center"/>
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="65.5dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="2dp"
+            android:text="返回"
+            android:textColor="#777777"
+            android:textSize="14sp"
+            android:background="@drawable/aboutbutton"
             />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-        <us.feras.mdv.MarkdownView
+        android:layout_weight="1"
+        android:layout_margin="@dimen/activity_horizontal_margin">
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/markdownView" />
+            android:textSize="15sp"
+            android:enabled="true"
+            android:textIsSelectable="true"
+            android:longClickable="true"
+            android:text="        这个app是我大二刚学Android时做的，由于本人才疏学浅，并没有做得很完美，很多网友反馈的问题一直没有得到解决。因为我已经转做其他开发了，不再进行安卓开发。所以我本人不会再对此项目进行维护更新了。\n      有意继续维护此项目的请查看\n      github.com/jeffdeen/compass \n      谢谢你们！！"/>
     </LinearLayout>
 
 

@@ -3,32 +3,59 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/list_background"
     >
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:background="@drawable/title_bg">-->
+        <!--<Button-->
+            <!--android:id="@+id/backButton"-->
+            <!--android:layout_width="66.88dp"-->
+            <!--android:layout_height="43.15dp"-->
+            <!--android:layout_marginTop="6.5dp"-->
+            <!--android:layout_marginBottom="10.5dp"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:text="返回"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textColor="#FFFFFF"-->
+            <!--android:background="@drawable/backbutton"-->
+            <!--/>-->
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="关于开发者"-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="#FFFFFF"-->
+            <!--android:layout_marginBottom="6dp"-->
+            <!--android:textSize="22sp"-->
+            <!--/>-->
+    <!--</RelativeLayout>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/title_bg">
-        <Button
-            android:id="@+id/backButton"
-            android:layout_width="66.88dp"
-            android:layout_height="43.15dp"
-            android:layout_marginTop="6.5dp"
-            android:layout_marginBottom="10.5dp"
-            android:layout_marginLeft="5dp"
-            android:text="返回"
-            android:textSize="15sp"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/backbutton"
-            />
+        android:layout_height="54dp"
+        android:background="@drawable/about_bg">
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="54dp"
             android:text="关于开发者"
-            android:gravity="center"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="6dp"
-            android:textSize="22sp"
+            android:textColor="#666666"
+            android:textSize="20sp"
+            android:layout_marginBottom="2dp"
+            android:gravity="center"/>
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="65.5dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="2dp"
+            android:text="返回"
+            android:textColor="#777777"
+            android:textSize="14sp"
+            android:background="@drawable/aboutbutton"
             />
     </RelativeLayout>
 
@@ -37,7 +64,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:background="@drawable/list_background">
+        >
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

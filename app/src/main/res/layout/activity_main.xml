@@ -9,24 +9,26 @@
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/title_bg">
+        android:layout_height="54dp"
+        android:background="@drawable/t_bg">
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="54dp"
             android:text="指南针"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp"
-            android:layout_marginBottom="5dp"
+            android:textColor="#666666"
+            android:textSize="20sp"
+            android:layout_marginBottom="2dp"
             android:gravity="center"/>
         <Button
             android:id="@+id/button"
-            android:layout_width="66.88dp"
-            android:layout_height="43.15dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="6.5dp"
-            android:layout_marginBottom="10.5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_width="65.5dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="2dp"
+            android:text="关于"
+            android:textColor="#777777"
+            android:textSize="14sp"
             android:background="@drawable/aboutbutton"
             />
     </RelativeLayout>
@@ -86,14 +88,14 @@
             />
 
     </LinearLayout>
+
     <LinearLayout
-        android:layout_below="@+id/compass"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
         android:id="@+id/locationLayout"
+        android:layout_below="@+id/compass"
         >
+
         <TextView
             android:id="@+id/longitudeText"
             android:layout_width="0dp"
@@ -102,6 +104,7 @@
             android:gravity="end|center_vertical"
             android:layout_weight="1"
             android:textColor="#A52A2A"/>
+
         <TextView
             android:id="@+id/latitudeText"
             android:layout_width="0dp"
@@ -112,6 +115,24 @@
             android:textColor="#A52A2A"
             />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/altitude"
+        android:layout_below="@+id/locationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="#A52A2A"
+        />
+    <!--<TextView-->
+        <!--android:id="@+id/address"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="#666666"-->
+        <!--android:textSize="15sp"/>-->
+
 
 
 </RelativeLayout>

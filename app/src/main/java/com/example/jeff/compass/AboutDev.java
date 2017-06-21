@@ -48,7 +48,7 @@ public class AboutDev extends BaseActivity {
                     cmb.setText(contents[1].trim());
                     break;
                 case R.id.more_line:
-                    Intent intent = new Intent(AboutDev.this, Info_Activity.class);
+                    Intent intent = new Intent(AboutDev.this, AboutMore.class);
                     startActivity(intent);
                     overridePendingTransition(R.animator.in_from_right, R.animator.out_to_left);
                     break;

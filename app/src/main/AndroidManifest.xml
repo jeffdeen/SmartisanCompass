@@ -17,7 +17,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <!-- 允许程序录制音频 -->
     <application
@@ -39,25 +41,24 @@
         </activity>
         <activity
             android:name=".AboutActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <service android:name="com.amap.api.location.APSService" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="d72ac710688b62bf5377049d84d6178a"></meta-data>
+            android:value="d72ac710688b62bf5377049d84d6178a" />
         <meta-data
             android:name="PGYER_APPID"
-            android:value="7e2a3b4a21ee8f908205d5e9f65b60ba"></meta-data>
+            android:value="7e2a3b4a21ee8f908205d5e9f65b60ba" />
 
         <activity
             android:name=".AboutDev"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".Info_Activity"
-            android:screenOrientation="portrait"
-            />
+
+        <activity android:name=".AboutMore"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

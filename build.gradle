@@ -3,6 +3,8 @@
 buildscript {
     repositories {
         jcenter()
+        //Bmob的maven仓库地址--必填
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
@@ -16,5 +18,6 @@ allprojects {
     repositories {
         jcenter()
         maven { url "https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master" }
+
     }
 }

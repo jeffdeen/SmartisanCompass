@@ -15,3 +15,7 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-libraryjars libs/BmobPay_v3.1.1_170111.jar
+  -keepclasseswithmembers class c.b.** { *; }
+  -keep interface c.b.PListener{ *; }
+  -keep interface c.b.QListener{ *; }
